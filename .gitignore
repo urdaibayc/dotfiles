@@ -1,0 +1,51 @@
+# ==========================================
+# 1. System & OS Junk
+# ==========================================
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+*~
+
+# ==========================================
+# 2. Shell History & Caches (CRITICAL)
+# ==========================================
+# Never track shell command histories
+.zsh_history
+.bash_history
+.bash_clear
+.history
+
+# Zsh completion dumps (auto-generated, causes git noise)
+.zcompdump*
+.zwc
+
+# Oh-My-Zsh active caches
+.oh-my-zsh/
+
+# ==========================================
+# 3. Security, Keys & Local-Only Configs
+# ==========================================
+# Private keys (just in case you back up ~/.ssh configs)
+*id_rsa*
+*id_ed25519*
+*.pem
+*.key
+
+# Local machine-specific configs (untracked secrets)
+.zshrc.local
+.bashrc.local
+*.local
+
+# Common credential storage folders
+.aws/
+.gcloud/
+.kube/config
+
+# ==========================================
+# 4. App Caches & State Files
+# ==========================================
+# If you ever stow standard XDG config folders, ignore these:
+.cache/
+.logs/
+*.log
