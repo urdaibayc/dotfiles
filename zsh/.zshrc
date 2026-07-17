@@ -65,9 +65,20 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# Load pyenv (to manage your Python versions)
+# Python
+# 1. Setup the PATH for pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d "$PYENV_ROOT/bin" ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+
+# 2. Load pyenv and pyenv-virtualenv
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-type -a pyenv > /dev/null && eval "$(pyenv init -)" && eval "$(pyenv virtualenv-init - 2> /dev/null)" && RPROMPT+='[🐍 $(pyenv version-name)]'
+if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init - 2> /dev/null)"
+    RPROMPT+='[🐍 $(pyenv version-name)]'
+fi
+
+
 
 # Store your own aliases in the ~/.aliases file and load the here.
 # [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
