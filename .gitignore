@@ -35,7 +35,6 @@ Thumbs.db
 # Local machine-specific configs (untracked secrets)
 .zshrc.local
 .bashrc.local
-*.local
 
 # Common credential storage folders
 .aws/
