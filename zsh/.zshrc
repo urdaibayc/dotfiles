@@ -65,7 +65,11 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Add to path
+export PATH="$HOME/.local/bin:$PATH"
+
 # Python
+
 # 1. Setup the PATH for pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d "$PYENV_ROOT/bin" ]] && export PATH="$PYENV_ROOT/bin:$PATH"

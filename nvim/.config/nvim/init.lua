@@ -692,9 +692,9 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    -- clangd = {},
+    clangd = {},
     -- gopls = {},
-    -- pyright = {},
+    pyright = {},
     -- rust_analyzer = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -981,3 +981,8 @@ end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+-- ===========================================================
+-- PlatformIO keymaps
+vim.keymap.set('n', '<leader>pb', ':!pio run<CR>', { desc = '[P]latformIO [B]uild' })
+vim.keymap.set('n', '<leader>pu', ':!pio run --target upload<CR>', { desc = '[P]latformIO [U]pload' })
+vim.keymap.set('n', '<leader>pm', ':!pio device monitor<CR>', { desc = '[P]latformIO [M]onitor' })
