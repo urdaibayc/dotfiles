@@ -692,8 +692,14 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    clangd = {},
-    -- gopls = {},
+     clangd = {
+       cmd = {
+         "clangd",
+         "--background-index",
+         "--query-driver=$HOME/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-*",
+       },
+     },
+   -- gopls = {},
     pyright = {},
     -- rust_analyzer = {},
     --
@@ -929,27 +935,27 @@ do
   end
 
   local available_parsers = require('nvim-treesitter.config').get_available()
-  vim.api.nvim_create_autocmd('FileType', {
-    callback = function(args)
-      local buf, filetype = args.buf, args.match
-
-      local language = vim.treesitter.language.get_lang(filetype)
-      if not language then return end
-
-      local installed_parsers = require('nvim-treesitter').get_installed 'parsers'
-
-      if vim.tbl_contains(installed_parsers, language) then
-        -- Enable the parser if it is already installed
-        treesitter_try_attach(buf, language)
-      elseif vim.tbl_contains(available_parsers, language) then
-        -- If a parser is available in `nvim-treesitter`, auto-install it and enable it after the installation is done
-        require('nvim-treesitter.config').install(language):await(function() treesitter_try_attach(buf, language) end)
-      else
-        -- Try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
-        treesitter_try_attach(buf, language)
-      end
-    end,
-  })
+--  vim.api.nvim_create_autocmd('FileType', {
+--    callback = function(args)
+--      local buf, filetype = args.buf, args.match
+--
+--      local language = vim.treesitter.language.get_lang(filetype)
+--      if not language then return end
+--
+--      local installed_parsers = require('nvim-treesitter').get_installed 'parsers'
+--
+--      if vim.tbl_contains(installed_parsers, language) then
+--        -- Enable the parser if it is already installed
+--        treesitter_try_attach(buf, language)
+--      elseif vim.tbl_contains(available_parsers, language) then
+--        -- If a parser is available in `nvim-treesitter`, auto-install it and enable it after the installation is done
+--        require('nvim-treesitter.config').install(language):await(function() treesitter_try_attach(buf, language) end)
+--      else
+--        -- Try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
+--        treesitter_try_attach(buf, language)
+--      end
+--    end,
+--  })
 end
 
 -- ============================================================
@@ -983,6 +989,6 @@ end
 -- vim: ts=2 sts=2 sw=2 et
 -- ===========================================================
 -- PlatformIO keymaps
-vim.keymap.set('n', '<leader>pb', ':!pio run<CR>', { desc = '[P]latformIO [B]uild' })
-vim.keymap.set('n', '<leader>pu', ':!pio run --target upload<CR>', { desc = '[P]latformIO [U]pload' })
-vim.keymap.set('n', '<leader>pm', ':!pio device monitor<CR>', { desc = '[P]latformIO [M]onitor' })
+-- vim.keymap.set('n', '<leader>pb', ':!pio run<CR>', { desc = '[P]latformIO [B]uild' })
+-- vim.keymap.set('n', '<leader>pu', ':!pio run --target upload<CR>', { desc = '[P]latformIO [U]pload' })
+-- vim.keymap.set('n', '<leader>pm', ':!pio device monitor<CR>', { desc = '[P]latformIO [M]onitor' })
