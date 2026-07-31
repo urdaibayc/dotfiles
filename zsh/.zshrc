@@ -104,3 +104,4 @@ export PYTHONBREAKPOINT=ipdb.set_trace
 
 
 eval "$(direnv hook zsh)"
+export PATH="$HOME/.opencode/bin:$PATH"
