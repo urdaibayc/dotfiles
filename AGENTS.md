@@ -7,10 +7,11 @@ Dotfiles repo (`urdaibayc/dotfiles`) containing GNU stow packages (`bash`, `kitt
 - Fresh system: `git clone https://github.com/urdaibayc/dotfiles ~/.dotfiles && ~/.dotfiles/install.sh`
 - The script self-bootstraps: if `~/.dotfiles` isn't a checkout it clones the repo there and re-executes, then `git pull --ff-only` to self-update before installing.
 - Run as a normal user; `sudo` is used for apt operations. Idempotent — safe to re-run.
-- Strict POSIX `sh` (`set -e`). Must stay dash-compatible — no bashisms. Verify edits with `sh -n install.sh` and `dash -n install.sh`.
+- Strict POSIX `sh` (`set -e`). Must stay dash-compatible — no bashisms (in particular: **no `trap ... ERR`** — dash rejects it). Verify edits with `sh -n install.sh` and `dash -n install.sh`.
 
 ## Ordering constraints (install.sh enforces these — don't break them)
 
+- The apt toolchain installs **before** the full system upgrade; the upgrade is a **best-effort** step (`|| warn`), so a failed upgrade can never block the install.
 - oh-my-zsh installs **before** dotfiles are stowed; the stowed `zsh/.zshrc` replaces the oh-my-zsh template (the script `rm -f`s `~/.zshrc` first).
 - PlatformIO installs **before** stow: the stowed `pio` package symlinks `~/.local/bin/{pio,piodebuggdb,platformio}` → `~/.platformio/penv/bin/...`, so `~/.platformio/penv` must exist first.
 - dotfiles `zsh/.zshrc` owns pyenv init (`~/.pyenv`, pyenv + virtualenv plugin installed via `pyenv.run`). The script never edits rc files for pyenv.
