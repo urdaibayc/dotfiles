@@ -180,6 +180,14 @@ else
     ok "added to docker group (takes effect after logout)"
 fi
 
+step "Starting container services at boot"
+# podman is daemonless; enable the rootless user units and restart policy.
+# Linger keeps the user systemd instance running so these start without a login.
+sudo loginctl enable-linger "$(id -un)"
+systemctl --user enable --now podman.socket podman-restart.service
+sudo systemctl enable --now docker.socket docker.service
+ok "Container services enabled at boot"
+
 ZSH_PATH="$(command -v zsh)"
 step "All done"
 printf '\n'

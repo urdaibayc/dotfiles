@@ -24,5 +24,6 @@ Dotfiles repo (`urdaibayc/dotfiles`) containing GNU stow packages (`bash`, `kitt
 - `zsh-syntax-highlighting` is NOT bundled with oh-my-zsh; install.sh clones it into `$ZSH_CUSTOM/plugins/` (`$HOME/.oh-my-zsh/custom/plugins`).
 - dotfiles `.zshrc` hard-requires `direnv` (`eval "$(direnv hook zsh)"`) and sets `PYTHONBREAKPOINT=ipdb.set_trace`; `direnv` is in the apt install list.
 - Docker comes from the `docker.io` apt package; the user is added to the `docker` group (needs logout).
+- install.sh enables container services at boot: `docker.socket` + `docker.service` (system), and rootless podman via `loginctl enable-linger` + `systemctl --user enable --now podman.socket podman-restart.service` (podman is daemonless).
 - `gh` CLI is installed from the official `cli/cli` apt repo (keyring at `/etc/apt/keyrings/githubcli-archive-keyring.gpg`).
 - Stow will fail loudly if a real config dir (e.g. `~/.config/kitty`) exists where a package expects a symlink — by design, don't clobber.
