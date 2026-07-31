@@ -69,7 +69,7 @@ step "Updating apt and installing system packages"
 require_sudo
 sudo apt-get update -y
 sudo apt-get install -y \
-    git zsh ripgrep stow kitty ddgr asciinema nvim podman docker.io \
+    git zsh ripgrep stow kitty ddgr asciinema neovim podman docker.io \
     build-essential python3 python3-venv python3-pip curl ca-certificates direnv \
     libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
     libffi-dev liblzma-dev
