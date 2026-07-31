@@ -69,7 +69,7 @@ step "Updating apt and installing system packages"
 require_sudo
 sudo apt-get update -y
 sudo apt-get install -y \
-    git zsh ripgrep stow kitty ddgr asciinema neovim podman docker.io \
+    git zsh ripgrep stow kitty ddgr asciinema podman docker.io \
     build-essential python3 python3-venv python3-pip curl ca-certificates direnv \
     libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
     libffi-dev liblzma-dev
@@ -77,6 +77,34 @@ ok "System packages installed"
 
 step "Upgrading remaining system packages (best effort)"
 sudo NEEDRESTART_MODE=a apt-get upgrade -y || warn "system upgrade failed; toolchain is already installed"
+
+step "Generating en_US.UTF-8 locale"
+# The dotfiles force LANG/LC_ALL=en_US.UTF-8; minimal images don't have it.
+sudo apt-get install -y locales
+sudo locale-gen en_US.UTF-8
+ok "Locale generated"
+
+step "Installing Neovim"
+# apt only ships neovim 0.9.x on Ubuntu 24.04, too old for this config
+# (the PackChanged autocmd needs >= 0.11). Install the official build to
+# ~/.local instead.
+NVIM_VERSION="v0.12.4"
+NVIM_DIR="$HOME/.local/lib/nvim-linux-x86_64"
+NVIM_TARBALL="$TMPDIR_ROOT/nvim-linux-x86_64.tar.gz"
+if [ -x "$NVIM_DIR/bin/nvim" ]; then
+    ok "Neovim already installed"
+else
+    curl -fsSL "https://github.com/neovim/neovim/releases/download/$NVIM_VERSION/nvim-linux-x86_64.tar.gz" \
+        -o "$NVIM_TARBALL"
+    test -s "$NVIM_TARBALL"
+    mkdir -p "$HOME/.local/lib"
+    tar -xzf "$NVIM_TARBALL" -C "$HOME/.local/lib"
+    rm -f "$NVIM_TARBALL"
+fi
+mkdir -p "$HOME/.local/bin"
+ln -sfn "$NVIM_DIR/bin/nvim" "$HOME/.local/bin/nvim"
+sudo apt-get remove -y neovim neovim-runtime || true
+ok "Neovim installed"
 
 step "Installing GitHub CLI"
 KEYRING=/etc/apt/keyrings/githubcli-archive-keyring.gpg

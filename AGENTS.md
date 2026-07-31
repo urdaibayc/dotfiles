@@ -15,6 +15,8 @@ Dotfiles repo (`urdaibayc/dotfiles`) containing GNU stow packages (`bash`, `kitt
 - oh-my-zsh installs **before** dotfiles are stowed; the stowed `zsh/.zshrc` replaces the oh-my-zsh template (the script `rm -f`s `~/.zshrc` first).
 - PlatformIO installs **before** stow: the stowed `pio` package symlinks `~/.local/bin/{pio,piodebuggdb,platformio}` → `~/.platformio/penv/bin/...`, so `~/.platformio/penv` must exist first.
 - dotfiles `zsh/.zshrc` owns pyenv init (`~/.pyenv`, pyenv + virtualenv plugin installed via `pyenv.run`). The script never edits rc files for pyenv.
+- The apt toolchain does NOT include `neovim` — Ubuntu 24.04's apt `neovim` (0.9.x) is too old for this config (the `PackChanged` autocmd in `nvim/` needs ≥ 0.11). install.sh installs the pinned official Neovim build (`v0.12.4` tarball → `~/.local/lib/nvim-linux-x86_64`, symlinked as `~/.local/bin/nvim`) and purges the apt `neovim`/`neovim-runtime`. Bump `NVIM_VERSION` in install.sh to update.
+- dotfiles force `LANG`/`LC_ALL=en_US.UTF-8`; install.sh generates that locale (`apt-get install -y locales && locale-gen en_US.UTF-8`) so minimal images stop emitting `setlocale` warnings.
 - Stow uses an **explicit package list** (`bash kitty nvim opencode pio zsh`), never `stow .` or `stow *` — a top-level `install.sh` must not be picked up as a package.
 
 ## Gotchas
