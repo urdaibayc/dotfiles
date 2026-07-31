@@ -129,7 +129,7 @@ if [ -x "$HOME/.platformio/penv/bin/pio" ]; then
     ok "PlatformIO already installed"
 else
     PIO_INSTALLER="$TMPDIR_ROOT/get-platformio.py"
-    curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py \
+    curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py \
         -o "$PIO_INSTALLER"
     test -s "$PIO_INSTALLER"
     python3 "$PIO_INSTALLER"
