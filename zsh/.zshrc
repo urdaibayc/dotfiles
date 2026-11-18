@@ -105,3 +105,8 @@ export PYTHONBREAKPOINT=ipdb.set_trace
 
 eval "$(direnv hook zsh)"
 export PATH="$HOME/.opencode/bin:$PATH"
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+

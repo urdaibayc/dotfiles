@@ -7,6 +7,9 @@ Thumbs.db
 *.bak
 *~
 
+# Syncthing folder marker (never commit)
+.stfolder/
+
 # ==========================================
 # 2. Shell History & Caches (CRITICAL)
 # ==========================================

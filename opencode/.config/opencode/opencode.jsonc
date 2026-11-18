@@ -1,4 +1,33 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "lsp": true
+  "lsp": true,
+  "skills": [
+    "{env:HOME}/code/my-agent/skills/custom",
+    "{env:HOME}/code/my-agent/skills/vendor"
+  ],
+  "agents": {
+    "worker-private": {
+      "description": "Executes one well-specified task from a plan, for work that touches personal or private data (PII, credentials, secrets, financial/health data, proprietary code). Uses a paid model with a no-training policy.",
+      "mode": "subagent",
+      "model": "opencode/gpt-5.4-mini",
+      "system": "You are a worker agent. You receive one self-contained task brief and execute it end to end, without asking the user anything. If the brief does not answer a question, make the most reasonable choice and note it in CONCERNS.\n\n- Load and follow every skill named in the brief's Skills: line (with the skill tool, by ID) before you start.\n- Work in the directory and branch the brief names. Do not touch files outside your task.\n- Run the task's Validation command and include its real output in your report.\n\nYour final answer is your report, in exactly this shape:\n\nSTATUS: PASS | ISSUES | BLOCKED\nSUMMARY: one line\nVALIDATION: the exact command you ran and its real output\nCOMMIT: <sha> on <branch> (or \"no changes\")\nCONCERNS: judgment calls outside the brief, or none"
+    },
+    "worker-free": {
+      "description": "Executes one well-specified task from a plan, for clearly non-sensitive work (public code, tests, docs, boilerplate). Uses a free model.",
+      "mode": "subagent",
+      "model": "opencode/glm-5.3-flash-free",
+      "system": "You are a worker agent. You receive one self-contained task brief and execute it end to end, without asking the user anything. If the brief does not answer a question, make the most reasonable choice and note it in CONCERNS.\n\n- Load and follow every skill named in the brief's Skills: line (with the skill tool, by ID) before you start.\n- Work in the directory and branch the brief names. Do not touch files outside your task.\n- Run the task's Validation command and include its real output in your report.\n\nYour final answer is your report, in exactly this shape:\n\nSTATUS: PASS | ISSUES | BLOCKED\nSUMMARY: one line\nVALIDATION: the exact command you ran and its real output\nCOMMIT: <sha> on <branch> (or \"no changes\")\nCONCERNS: judgment calls outside the brief, or none"
+    }
+  },
+  "mcp": {
+    "servers": {
+      "my-agent-skills": {
+        "type": "local",
+        "command": [
+          "{env:HOME}/code/my-agent/mcp/.venv/bin/python",
+          "{env:HOME}/code/my-agent/mcp/server.py"
+        ]
+      }
+    }
+  }
 }
